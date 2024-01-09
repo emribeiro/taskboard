@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Epic{
+  id String @id @default(uuid())
+  name String
+  description String
+  status Int //0 - Backlog | 1 - Em execução | 2 - Finalizado
+  createdAt DateTime @default(now())
+  finishedAt DateTime?
+
+  stories Story[]
+}
+
+model Story{
+  id String @id @default(uuid())
+  title String
+  type Int // 1 - Suporte | 2 - Ambientação | 3 - Implementação | 4 - Especificação | 5 - Analise | 6 - Refatoração | 7 - UX
+  status Int //0 - Backlog | 1 - Em execução | 2 - Finalizado
+  startedAt DateTime?
+  finishedAt DateTime?
+  points Int @default(0)
+  acceptanceCriteria String?
+  storyType StoryType @relation(fields:[type], references: [type])
+
+  epicId String?
+  epic Epic? @relation(fields: [epicId], references: [id])
+
+  tasks Task[]
+  sprints StoriesOnSprints[]
+}
+
+model StoryType{
+  type Int @id
+  description String
+
+  stories Story[]
+}
+
+model Task{
+  id String @id @default(uuid())
+  description String
+  isDone Boolean @default(false)
+  doneAt DateTime?
+
+  storyId String
+  story Story @relation(fields: [storyId], references: [id])
+}
+
+model Sprint{
+  id String @id @default(uuid())
+  name String
+  status Int // 1 - Executando | 2 - Finalizado | 9 - Cancelado
+  startDate DateTime
+  dueDate DateTime
+  endDate DateTime?
+
+  stories StoriesOnSprints[]
+}
+
+model StoriesOnSprints{
+  storyId String
+  story Story @relation(fields: [storyId], references: [id])
+  sprintId String
+  sprint Sprint @relation(fields: [sprintId], references: [id])
+  isDone Boolean @default(false)
+
+  @@id([storyId, sprintId])
+}
