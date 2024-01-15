@@ -10,6 +10,21 @@ class EpicPrismaRepository implements EpicRepository{
         this.client = new PrismaClient();
     }
 
+    async list(): Promise<Epic[]> {
+        const epics = await this.client.epic.findMany();
+        if(epics.length == 0) throw new Error('Nenhum épico registrado');
+        
+        return epics.map( (epic) => {
+            return {
+                id: epic.id,
+                name: epic.name,
+                description: epic.description,
+                status: epic.status,
+                createdAt: epic.createdAt
+            }
+        });
+    }
+
     async create(name: string, description: string): Promise<Epic> {
         const epic = await this.client.epic.create({
             data: {

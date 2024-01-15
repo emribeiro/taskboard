@@ -20,6 +20,10 @@ class EpicUseCase{
         return epic;
     }
 
+    async list(): Promise<Epic[]>{
+        return await this.repository.list();
+    }
+
 }
 
 export { EpicUseCase }

@@ -5,6 +5,7 @@ const epicRouter = Router();
 const epicController = new EpicController();
 
 epicRouter.post("/epic", epicController.createEpic);
+epicRouter.get("/epic", epicController.listEpics);
 
 
 export { epicRouter }
