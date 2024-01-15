@@ -14,7 +14,7 @@ model Epic{
   id String @id @default(uuid())
   name String
   description String
-  status Int //0 - Backlog | 1 - Em execução | 2 - Finalizado
+  status Int @default(0)//0 - Backlog | 1 - Em execução | 2 - Finalizado
   createdAt DateTime @default(now())
   finishedAt DateTime?
 
@@ -25,7 +25,7 @@ model Story{
   id String @id @default(uuid())
   title String
   type Int // 1 - Suporte | 2 - Ambientação | 3 - Implementação | 4 - Especificação | 5 - Analise | 6 - Refatoração | 7 - UX
-  status Int //0 - Backlog | 1 - Em execução | 2 - Finalizado
+  status Int @default(0)//0 - Backlog | 1 - Em execução | 2 - Finalizado
   startedAt DateTime?
   finishedAt DateTime?
   points Int @default(0)
