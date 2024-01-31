@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { StoryRepository } from "../repositories/StoryRepository";
+import { Story } from "../entities/Story";
 
 @injectable()
 class StoryUseCase{
@@ -33,6 +34,12 @@ class StoryUseCase{
 
                     return story;
                 }
+
+    async listAll(): Promise<Story[]>{
+        const stories = await this.repository.listAll();
+
+        return stories;
+    }
 }
 
 export { StoryUseCase }

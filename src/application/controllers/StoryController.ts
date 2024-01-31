@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { StoryUseCase } from "../../domain/usecases/StoryUseCase";
 import { container } from "tsyringe";
 import { CreateStoryDTO } from "../dtos/CreateStoryDTO";
-import { STATUS_CODES } from "http";
 
 class StoryController{
 
@@ -17,6 +16,14 @@ class StoryController{
                                          , epicId);
 
         return response.status(201).send(story);
+    }
+
+    async listAll(request: Request, response: Response){
+        const storyUseCase: StoryUseCase = container.resolve(StoryUseCase);
+
+        const stories = await storyUseCase.listAll();
+
+        return response.status(200).send(stories);
     }
 
 }

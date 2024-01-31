@@ -1,10 +1,11 @@
+import { StoryStatus } from "./StoryStatus";
+import { StoryType } from "./StoryType";
+
 interface Story{
     id: string;
     title: string;
-    type: {
-        code: number;
-        description: string;
-    },
+    type: StoryType;
+    status: StoryStatus;
     points: number;
     startedAt?: Date;
     finishedAt?: Date;
