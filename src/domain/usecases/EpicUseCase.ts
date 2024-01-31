@@ -24,6 +24,10 @@ class EpicUseCase{
         return await this.repository.list();
     }
 
+    async delete(id: string){
+        await this.repository.delete(id);
+    }
+
 }
 
 export { EpicUseCase }

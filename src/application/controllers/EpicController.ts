@@ -24,6 +24,17 @@ class EpicController{
 
     }
 
+    async deleteEpic(request: Request, response: Response){
+        const epicId = request.params.epicId;
+        const epicUseCase : EpicUseCase = container.resolve(EpicUseCase);
+
+        await epicUseCase.delete(epicId);
+
+        return response.status(200).send({message: "Épico deletado com sucesso!"});
+        
+        
+    }
+
 }
 
 export { EpicController }

@@ -41,6 +41,14 @@ class EpicPrismaRepository implements EpicRepository{
             createdAt: epic.createdAt
         }
     }
+
+    async delete(id: string): Promise<void>{
+        await this.client.epic.delete({
+            where: {
+                id: id
+            }
+        });
+    }
 }
 
 export { EpicPrismaRepository }
