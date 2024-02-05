@@ -4,9 +4,9 @@ import { EpicController } from "../controllers/EpicController";
 const epicRouter = Router();
 const epicController = new EpicController();
 
-epicRouter.post("/epic", epicController.createEpic);
-epicRouter.get("/epic", epicController.listEpics);
-epicRouter.delete("/epic", epicController.deleteEpic);
+epicRouter.post("/", epicController.createEpic);
+epicRouter.get("/", epicController.listEpics);
+epicRouter.delete("/", epicController.deleteEpic);
 
 
 export { epicRouter }
