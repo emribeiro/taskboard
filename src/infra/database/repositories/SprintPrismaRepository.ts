@@ -30,8 +30,19 @@ class SprintPrismaRepository implements SprintRepository{
     }
 
 
-    list(): Promise<Sprint[]> {
-        throw new Error("Method not implemented.");
+    async list(): Promise<Sprint[]> {
+        const sprint = await this.client.sprint.findMany();
+
+        return sprint.map( (item) => {
+            return {
+                id: item.id,
+                name: item.name,
+                status: item.status,
+                startDate: item.startDate,
+                dueDate: item.dueDate,
+                endDate: item.endDate != null ? item.endDate : undefined
+            }
+        });
     }
 
     async getActive(): Promise<Sprint | null> {

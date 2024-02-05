@@ -14,6 +14,14 @@ class SprintController{
 
     }
 
+    async list(request: Request, response: Response){
+        const sprintUseCase: SprintUseCase = container.resolve(SprintUseCase);
+
+        const sprints = await sprintUseCase.list();
+
+        return response.status(200).send(sprints);
+    }
+
 }
 
 export { SprintController }

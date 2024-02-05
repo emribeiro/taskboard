@@ -27,6 +27,14 @@ class SprintUseCase{
 
         return sprint;
     }
+
+    async list(): Promise<Sprint[]>{
+        const sprints = await this.repository.list();
+
+        return sprints;
+    }
+
+
 }
 
 export { SprintUseCase }

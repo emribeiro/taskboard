@@ -5,6 +5,7 @@ const sprintRouter = Router();
 const controller = new SprintController();
 
 sprintRouter.post("/", controller.create);
+sprintRouter.get("/", controller.list);
 
 
 export { sprintRouter }
