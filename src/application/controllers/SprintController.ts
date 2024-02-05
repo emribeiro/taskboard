@@ -22,6 +22,18 @@ class SprintController{
         return response.status(200).send(sprints);
     }
 
+    async getActive(request: Request, response: Response){
+        const sprintUseCase: SprintUseCase = container.resolve(SprintUseCase);
+
+        const activeSprint = await sprintUseCase.getActive();
+
+        if(activeSprint == null){
+            return response.status(204).send();
+        }else{
+            return response.status(200).send(activeSprint);
+        }
+    }
+
 }
 
 export { SprintController }

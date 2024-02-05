@@ -34,7 +34,11 @@ class SprintUseCase{
         return sprints;
     }
 
+    async getActive(): Promise<Sprint | null >{
+        const activeSprint = await this.repository.getActive();
 
+        return activeSprint;
+    }
 }
 
 export { SprintUseCase }
