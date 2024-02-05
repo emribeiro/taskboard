@@ -9,6 +9,7 @@ class SprintPrismaRepository implements SprintRepository{
     constructor(){
         this.client = new PrismaClient();
     }
+    
 
     async create(name: string, startDate: Date, dueDate: Date): Promise<Sprint> {
         const sprint = await this.client.sprint.create({
@@ -63,8 +64,37 @@ class SprintPrismaRepository implements SprintRepository{
             dueDate: sprint.dueDate
         }
     }
-    addStories(sprintId: string, stories: string[]): Promise<void> {
+
+    async getById(sprintId: string): Promise<Sprint>{
+        const sprint = await this.client.sprint.findUniqueOrThrow({
+            where: {
+                id: sprintId
+            }
+        });
+
+         return {
+            id: sprint.id,
+            name: sprint.name,
+            status: sprint.status,
+            startDate: sprint.startDate,
+            dueDate: sprint.dueDate,
+            endDate: sprint.endDate != null ? sprint.endDate : undefined
+        }
+    }
+    async addStories(sprintId: string, stories: string[]): Promise<void> {
         throw new Error("Method not implemented.");
+    }
+
+    async finishStory(sprintId: string): Promise<void> {
+        
+        await this.client.sprint.update({
+            where: {
+                id: sprintId
+            },
+            data: {
+                status: 2
+            }
+        })
     }
 
 }

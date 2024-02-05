@@ -39,6 +39,14 @@ class SprintUseCase{
 
         return activeSprint;
     }
+
+    async finishSprint(sprintId: string): Promise<void>{
+        const sprint = await this.repository.getById(sprintId);
+
+        if(sprint.status == 2) throw new Error("Sprint already finished!");
+
+        await this.repository.finishStory(sprintId);
+    }
 }
 
 export { SprintUseCase }

@@ -34,6 +34,15 @@ class SprintController{
         }
     }
 
+    async finishSprint(request: Request, response: Response){
+        const sprintUseCase: SprintUseCase = container.resolve(SprintUseCase);
+        const sprintId = request.params.sprintId;
+
+        await sprintUseCase.finishSprint(sprintId);
+
+        return response.status(200).send();
+    }
+
 }
 
 export { SprintController }
