@@ -1,3 +1,4 @@
+import { Story } from "./Story";
 
 interface Sprint{
     id: string;
@@ -6,6 +7,11 @@ interface Sprint{
     startDate: Date;
     dueDate: Date;
     endDate?: Date;
+
+    stories?: [{
+        isDone: boolean,
+        story: Story
+    }]
 
 }
 

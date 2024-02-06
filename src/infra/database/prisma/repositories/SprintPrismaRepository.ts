@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { Sprint } from "../../../domain/entities/Sprint";
-import { SprintRepository } from "../../../domain/repositories/SprintRepository";
+import { Sprint } from "../../../../domain/entities/Sprint";
+import { SprintRepository } from "../../../../domain/repositories/SprintRepository";
+import { StoryStatus } from "../../../../domain/entities/StoryStatus";
+import { SprintMapper } from "../mappers/SprintMapper";
 
 class SprintPrismaRepository implements SprintRepository{
 
@@ -50,25 +52,39 @@ class SprintPrismaRepository implements SprintRepository{
         const sprint = await this.client.sprint.findFirst({
             where: {
                 status: 1
+            },
+            include: {
+                stories: {
+                    include: {
+                        story: {
+                            include: {
+                                storyType: true
+                            }
+                        }
+                    }
+                }
             }
         });
 
         if(sprint == null) return null;
 
+        console.log(sprint)
 
-        return {
-            id: sprint.id,
-            name: sprint.name,
-            status: sprint.status,
-            startDate: sprint.startDate,
-            dueDate: sprint.dueDate
-        }
+
+        return SprintMapper.toDomain(sprint);
     }
 
     async getById(sprintId: string): Promise<Sprint>{
         const sprint = await this.client.sprint.findUniqueOrThrow({
             where: {
                 id: sprintId
+            },
+            include: {
+                stories: {
+                    include: {
+                        story: true
+                    }
+                }
             }
         });
 
@@ -118,6 +134,34 @@ class SprintPrismaRepository implements SprintRepository{
                 status: 2
             }
         })
+    }
+
+    private getStoryStatus(status: number): StoryStatus{
+        const BACKLOG = 0;
+        const DOING = 1;
+        const DONE = 2;
+
+        let description =  '';
+
+        switch(status){
+            case BACKLOG: 
+                description = 'Backlog'; 
+                break;
+            case DOING:
+                description = 'Fazendo';
+                break;
+            case DONE:
+                description = 'Feito';
+                break;
+            default:
+                throw new Error('Status not found: ' + status); 
+        }
+
+        return {
+            code: status,
+            description
+        }
+
     }
 
 }

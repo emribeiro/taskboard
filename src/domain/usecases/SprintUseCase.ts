@@ -34,6 +34,12 @@ class SprintUseCase{
         return sprints;
     }
 
+    async get(sprintId: string): Promise<Sprint | null> {
+        const sprint = await this.repository.getById(sprintId);
+
+        return sprint;
+    }
+
     async getActive(): Promise<Sprint | null >{
         const activeSprint = await this.repository.getActive();
 

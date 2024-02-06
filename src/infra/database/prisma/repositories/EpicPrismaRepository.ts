@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { Epic } from "../../../domain/entities/Epic";
-import { EpicRepository } from "../../../domain/repositories/EpicRepository";
+import { Epic } from "../../../../domain/entities/Epic";
+import { EpicRepository } from "../../../../domain/repositories/EpicRepository";
 
 class EpicPrismaRepository implements EpicRepository{
 
