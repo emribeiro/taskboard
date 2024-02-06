@@ -1,5 +1,6 @@
 import { StoryStatus } from "./StoryStatus";
 import { StoryType } from "./StoryType";
+import { Task } from "./Task";
 
 interface Story{
     id: string;
@@ -11,6 +12,8 @@ interface Story{
     finishedAt?: Date;
     acceptanceCriteria?: string;
     epicId?: string;
+
+    tasks?: Task[]
 }
 
 export { Story }

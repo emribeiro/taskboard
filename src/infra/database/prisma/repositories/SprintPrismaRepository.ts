@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Sprint } from "../../../../domain/entities/Sprint";
 import { SprintRepository } from "../../../../domain/repositories/SprintRepository";
-import { StoryStatus } from "../../../../domain/entities/StoryStatus";
 import { SprintMapper } from "../mappers/SprintMapper";
 
 class SprintPrismaRepository implements SprintRepository{

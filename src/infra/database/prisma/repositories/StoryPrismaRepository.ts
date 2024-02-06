@@ -1,8 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { StoryRepository } from "../../../../domain/repositories/StoryRepository";
 import { Story } from "../../../../domain/entities/Story";
-import { StoryType } from "../../../../domain/entities/StoryType";
-import { StoryStatus } from "../../../../domain/entities/StoryStatus";
 import { StoryMapper } from "../mappers/StoryMapper";
 
 
@@ -41,6 +39,29 @@ class StoryPrismaRepository implements StoryRepository{
         });
 
         return mappedStories;
+    }
+
+    async addTasks(storyId: string, tasks: string[]): Promise<Story> {
+        const story = await this.client.story.update({
+            where: {
+                id: storyId
+            },
+            data: {
+                tasks: {
+                    create: tasks.map( (task) => ({
+                        description: task
+                    }))
+                }
+            },
+            include: {
+                tasks: true,
+                storyType: true
+            }
+        });
+
+        console.log(story);
+
+        return StoryMapper.toDomain(story);
     }
     
 }

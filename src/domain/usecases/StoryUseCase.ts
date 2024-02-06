@@ -20,10 +20,6 @@ class StoryUseCase{
 
                     if(!type || type == 0) {
                         throw new Error("Mandatory data not informed: Type");
-                    }else{
-                        const storyType = await this.repository.getStoryType(type);
-
-                        if(!storyType) throw new Error("StoryType not found: " + type);
                     }
 
                     const story = await this.repository.create( title 
@@ -39,6 +35,16 @@ class StoryUseCase{
         const stories = await this.repository.listAll();
 
         return stories;
+    }
+
+    async addTasks(storyId: string, tasks: string[]): Promise<Story>{
+        if(!storyId || storyId.trim().length == 0) throw new Error("Mandatory data not informed: storyId");
+
+        if(!tasks || tasks.length == 0) throw new Error("Must be informed a least one task!");
+
+        const story = await this.repository.addTasks(storyId, tasks);
+
+        return story;
     }
 
 }
