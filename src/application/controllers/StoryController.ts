@@ -18,6 +18,15 @@ class StoryController{
         return response.status(201).send(story);
     }
 
+    async get(request: Request, response: Response){
+        const storyUseCase: StoryUseCase = container.resolve(StoryUseCase);
+
+        const storyId = request.params.storyId;
+        const story = await storyUseCase.get(storyId);
+
+        return response.status(200).send(story);
+    }
+
     async listAll(request: Request, response: Response){
         const storyUseCase: StoryUseCase = container.resolve(StoryUseCase);
 

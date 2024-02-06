@@ -10,6 +10,12 @@ class StoryUseCase{
         private repository: StoryRepository
     ){}
 
+    async get(storyId: string): Promise<Story>{
+        const story = await this.repository.get(storyId);
+
+        return story;
+    }
+
     async create( title: string
                 , type: number
                 , points: number

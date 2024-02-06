@@ -12,6 +12,22 @@ class StoryPrismaRepository implements StoryRepository{
         this.client = new PrismaClient();
     }
 
+    async get(storyId: string): Promise<Story> {
+        const story = await this.client.story.findUniqueOrThrow(
+            {
+                where: {
+                    id: storyId
+                },
+                include: {
+                    storyType: true,
+                    tasks: true
+                }
+            }
+        )
+        
+        return StoryMapper.toDomain(story);
+    }
+
 
     async create(title: string, type: number, points: number, acceptanceCriteria?: string | undefined, epicId?: string | undefined): Promise<Story> {
         const story = await this.client.story.create({
@@ -26,7 +42,6 @@ class StoryPrismaRepository implements StoryRepository{
                 storyType: true
             }
         });
-
 
         return StoryMapper.toDomain(story);
     }
@@ -58,8 +73,6 @@ class StoryPrismaRepository implements StoryRepository{
                 storyType: true
             }
         });
-
-        console.log(story);
 
         return StoryMapper.toDomain(story);
     }

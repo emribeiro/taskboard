@@ -7,6 +7,7 @@ const storyController: StoryController = new StoryController();
 
 storyRouter.post("/", storyController.create);
 storyRouter.get("/", storyController.listAll);
-storyRouter.post("/:storyId/addtasks",storyController.addTasks);
+storyRouter.get("/:storyId", storyController.get);
+storyRouter.post("/:storyId/addtasks", storyController.addTasks);
 
 export { storyRouter }
