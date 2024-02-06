@@ -11,10 +11,11 @@ class SprintMapper{
             status: sprint.status,
             startDate: sprint.startDate,
             dueDate: sprint.dueDate,
-            stories: sprint.stories.map( (story) => ({
+            endDate: sprint.endDate != null ? sprint.endDate : undefined,
+            stories: sprint.stories ? sprint.stories.map( (story) => ({
                 isDone: story.isDone,
                 story: StoryMapper.toDomain(story.story)
-            }))
+            })) : undefined
         }
 
         return domain;

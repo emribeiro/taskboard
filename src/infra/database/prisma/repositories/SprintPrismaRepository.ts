@@ -23,13 +23,7 @@ class SprintPrismaRepository implements SprintRepository{
             }
         });
 
-        return {
-            id: sprint.id,
-            name: sprint.name,
-            status: sprint.status,
-            startDate: sprint.startDate,
-            dueDate: sprint.dueDate
-        };
+        return SprintMapper.toDomain(sprint);
     }
 
 
@@ -37,14 +31,7 @@ class SprintPrismaRepository implements SprintRepository{
         const sprint = await this.client.sprint.findMany();
 
         return sprint.map( (item) => {
-            return {
-                id: item.id,
-                name: item.name,
-                status: item.status,
-                startDate: item.startDate,
-                dueDate: item.dueDate,
-                endDate: item.endDate != null ? item.endDate : undefined
-            }
+            return SprintMapper.toDomain(item)
         });
     }
 
@@ -68,9 +55,6 @@ class SprintPrismaRepository implements SprintRepository{
 
         if(sprint == null) return null;
 
-        console.log(sprint)
-
-
         return SprintMapper.toDomain(sprint);
     }
 
@@ -82,20 +66,17 @@ class SprintPrismaRepository implements SprintRepository{
             include: {
                 stories: {
                     include: {
-                        story: true
+                        story: {
+                            include: {
+                                storyType: true
+                            }
+                        }
                     }
                 }
             }
         });
 
-         return {
-            id: sprint.id,
-            name: sprint.name,
-            status: sprint.status,
-            startDate: sprint.startDate,
-            dueDate: sprint.dueDate,
-            endDate: sprint.endDate != null ? sprint.endDate : undefined
-        }
+         return SprintMapper.toDomain(sprint);
     }
     async addStories(sprintId: string, stories: string[]): Promise<void> {
         const storiesToConnect = stories.map( ( story ) => {
@@ -134,34 +115,6 @@ class SprintPrismaRepository implements SprintRepository{
                 status: 2
             }
         })
-    }
-
-    private getStoryStatus(status: number): StoryStatus{
-        const BACKLOG = 0;
-        const DOING = 1;
-        const DONE = 2;
-
-        let description =  '';
-
-        switch(status){
-            case BACKLOG: 
-                description = 'Backlog'; 
-                break;
-            case DOING:
-                description = 'Fazendo';
-                break;
-            case DONE:
-                description = 'Feito';
-                break;
-            default:
-                throw new Error('Status not found: ' + status); 
-        }
-
-        return {
-            code: status,
-            description
-        }
-
     }
 
 }
