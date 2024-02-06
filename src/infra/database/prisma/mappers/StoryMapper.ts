@@ -1,6 +1,7 @@
 import { Story } from "@prisma/client";
 import { Story as StoryDomain } from "../../../../domain/entities/Story";
 import { StoryStatus } from "../../../../domain/entities/StoryStatus";
+import { TaskMapper } from "./TaskMapper";
 
 
 class StoryMapper{
@@ -16,7 +17,8 @@ class StoryMapper{
                 status: this.getStoryStatus(story.status),
                 points: story.points,
                 acceptanceCriteria: story.acceptanceCriteria == null ? undefined : story.acceptanceCriteria,
-                epicId: story.epicId == null ? undefined : story.epicId
+                epicId: story.epicId == null ? undefined : story.epicId,
+                tasks: story.tasks ? story.tasks.map( (task) => (TaskMapper.toDomain(task))) : undefined
         }
 
         return domain;
