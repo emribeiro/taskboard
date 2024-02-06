@@ -82,7 +82,30 @@ class SprintPrismaRepository implements SprintRepository{
         }
     }
     async addStories(sprintId: string, stories: string[]): Promise<void> {
-        throw new Error("Method not implemented.");
+        const storiesToConnect = stories.map( ( story ) => {
+            return {
+                storyId: story,
+                sprintId
+            }
+        });
+
+        await this.client.sprint.update({
+            where: {
+                id: sprintId
+            },
+            data: {
+                stories: {
+                    connectOrCreate: storiesToConnect.map( (story) => ({
+                        where: { storyId_sprintId: story},
+                        create: { storyId: story.storyId, isDone: false}
+                    }))
+                }
+            },
+            include: {
+                stories: true
+            }
+        })
+        
     }
 
     async finishStory(sprintId: string): Promise<void> {

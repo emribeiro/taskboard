@@ -43,6 +43,16 @@ class SprintController{
         return response.status(200).send();
     }
 
+    async addStories(request: Request, response: Response){
+        const sprintUseCase: SprintUseCase = container.resolve(SprintUseCase);
+        const sprintId = request.params.sprintId;
+        const {stories} = request.body;
+
+        await sprintUseCase.addStories(sprintId, stories);
+
+        return response.status(200).send();
+    }
+
 }
 
 export { SprintController }

@@ -40,6 +40,7 @@ class StoryUseCase{
 
         return stories;
     }
+
 }
 
 export { StoryUseCase }

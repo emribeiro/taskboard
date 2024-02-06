@@ -47,6 +47,10 @@ class SprintUseCase{
 
         await this.repository.finishStory(sprintId);
     }
+
+    async addStories(sprintId: string, stories: string[]): Promise<void>{
+        await this.repository.addStories(sprintId, stories);
+    }
 }
 
 export { SprintUseCase }
